@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>_146247148111.TVApp</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\146247148111.TVApp.BLC\146247148111.TVApp.BLC.csproj" />
+    <ProjectReference Include="..\146247148111.TVApp.Core\146247148111.TVApp.Core.csproj" />
+    <ProjectReference Include="..\146247148111.TVApp.Interfaces\146247148111.TVApp.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
