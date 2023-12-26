@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _146247148111.TVApp.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace _146247148111.TVApp.Interfaces
     {
         IEnumerable<IProducer> GetAllProducers();
         IEnumerable<ITV> GetAllTV();
-        IProducer CreateNewProducer();
-        ITV CreateNewTV();
+        IProducer CreateNewProducer(int ID, string Name, string Country);
+        ITV CreateNewTV(int ID, string Name, IProducer TV_Producer, ScreenType Screen, int ScreenSize);
     }
 }

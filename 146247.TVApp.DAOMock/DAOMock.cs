@@ -1,4 +1,5 @@
 ﻿using _146247.TVApp.DAOMock;
+using _146247148111.TVApp.Core;
 using _146247148111.TVApp.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -33,14 +34,14 @@ namespace _146247148111.TVApp.DAOMock
             };
         }
 
-        public IProducer CreateNewProducer()
+        public IProducer CreateNewProducer(int ID, string Name, string Country)
         {
-            return new Producer();
+            return new Producer { ID=ID, Name=Name, Country=Country };
         }
 
-        public ITV CreateNewTV()
+        public ITV CreateNewTV(int ID, string Name, IProducer TV_Producer, ScreenType Screen, int ScreenSize)
         {
-            return new TV();
+            return new TV { ID=ID, Name=Name, Producer=TV_Producer, Screen=Screen, ScreenSize=ScreenSize };
         }
 
         public IEnumerable<IProducer> GetAllProducers()
