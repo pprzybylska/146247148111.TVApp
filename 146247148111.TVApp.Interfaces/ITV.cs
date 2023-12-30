@@ -11,6 +11,7 @@ namespace _146247148111.TVApp.Interfaces
     {
         int ID { get; set; }
         string Name { get; set; }
+        public int ProducerId { get; set; }
         IProducer Producer { get; set; }
         int ScreenSize { get; set; }
         ScreenType Screen { get; set; }

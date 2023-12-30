@@ -25,23 +25,23 @@ namespace _146247148111.TVApp.DAOMock
 
             TVs = new List<ITV>()
             {
-                new TV() { ID = 1, Name = "QE65Q77C", Producer = producers[0], Screen = Core.ScreenType.QLED, ScreenSize=65},
-                new TV() { ID = 2, Name = "QE65S90C", Producer = producers[0], Screen = Core.ScreenType.OLED, ScreenSize=65},
-                new TV() { ID = 3, Name = "KD-65X75WL", Producer = producers[1], Screen = Core.ScreenType.LED, ScreenSize=65},
-                new TV() { ID = 4, Name = "KD-55X85LAEP", Producer = producers[1], Screen = Core.ScreenType.LED, ScreenSize=55},
-                new TV() { ID = 5, Name = "TX-55LX650E", Producer = producers[2], Screen = Core.ScreenType.LED, ScreenSize=55},
-                new TV() { ID = 6, Name = "TX-50LX650E", Producer = producers[2], Screen = Core.ScreenType.LED, ScreenSize=50},
+                new TV() { ID = 1, Name = "QE65Q77C", ProducerId = 1, Screen = Core.ScreenType.QLED, ScreenSize=65},
+                new TV() { ID = 2, Name = "QE65S90C", ProducerId = 1, Screen = Core.ScreenType.OLED, ScreenSize=65},
+                new TV() { ID = 3, Name = "KD-65X75WL", ProducerId = 2, Screen = Core.ScreenType.LED, ScreenSize=65},
+                new TV() { ID = 4, Name = "KD-55X85LAEP", ProducerId = 2, Screen = Core.ScreenType.LED, ScreenSize=55},
+                new TV() { ID = 5, Name = "TX-55LX650E", ProducerId = 3, Screen = Core.ScreenType.LED, ScreenSize=55},
+                new TV() { ID = 6, Name = "TX-50LX650E", ProducerId = 3, Screen = Core.ScreenType.LED, ScreenSize=50},
             };
         }
 
         public IProducer CreateNewProducer(int ID, string Name, string Country)
         {
-            return new Producer { ID=ID, Name=Name, Country=Country };
+            return new Producer { ID=ID, Name=Name, Country=Country };  //TO DO
         }
 
-        public ITV CreateNewTV(int ID, string Name, IProducer TV_Producer, ScreenType Screen, int ScreenSize)
+        public ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
         {
-            return new TV { ID=ID, Name=Name, Producer=TV_Producer, Screen=Screen, ScreenSize=ScreenSize };
+            return new TV { ID=ID, Name=Name, ProducerId=ProducerId, Screen=Screen, ScreenSize=ScreenSize };  //TO DO
         }
 
         public IEnumerable<IProducer> GetAllProducers()
@@ -51,7 +51,19 @@ namespace _146247148111.TVApp.DAOMock
 
         public IEnumerable<ITV> GetAllTV()
         {
-            return TVs;
+            return TVs; 
+        }
+
+        public bool DeleteProducerById(int producerId)
+        {
+
+            return false; //TO DO
+        }
+
+        public bool DeleteTVById(int TVId)
+        {
+
+            return false;  //TO DO
         }
     }
 }

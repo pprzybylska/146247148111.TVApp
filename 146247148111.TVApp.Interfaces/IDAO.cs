@@ -12,6 +12,8 @@ namespace _146247148111.TVApp.Interfaces
         IEnumerable<IProducer> GetAllProducers();
         IEnumerable<ITV> GetAllTV();
         IProducer CreateNewProducer(int ID, string Name, string Country);
-        ITV CreateNewTV(int ID, string Name, IProducer TV_Producer, ScreenType Screen, int ScreenSize);
+        ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize);
+        bool DeleteProducerById(int producerId);
+        bool DeleteTVById(int TVId);
     }
 }
