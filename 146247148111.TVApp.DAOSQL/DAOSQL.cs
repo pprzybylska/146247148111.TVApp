@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _146247148111.TVApp.DAOSQL
 {
-    public class DAOSQL: IDAO
+    public class DAOSQL : IDAO
     {
         public IProducer CreateNewProducer(int ID, string Name, string Country)
         {
@@ -57,11 +57,11 @@ namespace _146247148111.TVApp.DAOSQL
             {
                 context.producers.Remove(producerToDelete);
                 context.SaveChanges();
-                return true; 
+                return true;
             }
 
             Console.WriteLine("Producent o podanym ID nie istnieje.");
-            return false; 
+            return false;
         }
 
         public bool DeleteTVById(int TVId)
@@ -78,6 +78,84 @@ namespace _146247148111.TVApp.DAOSQL
 
             Console.WriteLine("TV o podanym ID nie istnieje.");
             return false;
+        }
+
+        public IProducer UpdateProducer(int ID, string Name, string Country)
+        {
+            var context = new Context();
+            var producerToUpdate = context.producers.FirstOrDefault(p => p.ID == ID);
+            if (producerToUpdate != null)
+            {
+                producerToUpdate.Name = Name;
+                producerToUpdate.Country = Country;
+                context.SaveChanges();
+                return producerToUpdate;
+            }
+            Console.WriteLine("TV o podanym ID nie istnieje.");
+            return null;
+        }
+
+        public ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        {
+            var context = new Context();
+            var TVToUpdate = context.TVs.FirstOrDefault(p => p.ID == ID);
+            if (TVToUpdate != null)
+            {
+                TVToUpdate.Name = Name;
+                TVToUpdate.ProducerId = ProducerId;
+                var existingProducer = context.producers.FirstOrDefault(p => p.ID == ProducerId);
+                TVToUpdate.Producer = existingProducer;
+                TVToUpdate.Screen = Screen;
+                TVToUpdate.ScreenSize = ScreenSize;
+                context.SaveChanges();
+                return TVToUpdate;
+            }
+            Console.WriteLine("TV o podanym ID nie istnieje.");
+            return null;
+        }
+        public IEnumerable<ITV> SearchTVsByKeyword(string keyword)
+        {
+            var context = new Context();
+
+            var matchingTVs = context.TVs
+                    .Where(tv => EF.Functions.Like(tv.ToString(), $"%{keyword}%"))
+                    .ToList();
+
+            return matchingTVs;
+
+        }
+
+        public IEnumerable<ITV> FilterByProducer(string producer)
+        {
+            var context = new Context();
+            var filteredTVs = context.TVs
+                .Where(tv => tv.Producer.Name.Equals(producer, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return filteredTVs;
+
+        }
+
+        public IEnumerable<ITV> FilterByScreenSize(double minSize = 0, double maxSize = 100)
+        {
+            var context = new Context();
+            var filteredTVs = context.TVs
+                .Where(tv => tv.ScreenSize >= minSize && tv.ScreenSize <= maxSize)
+                .ToList();
+
+            return filteredTVs;
+
+        }
+
+        public IEnumerable<ITV> FilterByScreenType(ScreenType screenType)
+        {
+            var context = new Context();
+            var filteredTVs = context.TVs
+                .Where(tv => tv.Screen == screenType)
+                .ToList();
+
+            return filteredTVs;
+
         }
     }
 }

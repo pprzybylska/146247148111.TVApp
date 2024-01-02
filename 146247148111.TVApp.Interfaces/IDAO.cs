@@ -15,5 +15,11 @@ namespace _146247148111.TVApp.Interfaces
         ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize);
         bool DeleteProducerById(int producerId);
         bool DeleteTVById(int TVId);
+        IProducer UpdateProducer(int ID, string Name, string Country);
+        ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize);
+        IEnumerable<ITV> SearchTVsByKeyword(string keyword);
+        public IEnumerable<ITV> FilterByProducer(string producer);
+        public IEnumerable<ITV> FilterByScreenSize(double minSize = 0, double maxSize = 100);
+        public IEnumerable<ITV> FilterByScreenType(ScreenType screenType);
     }
 }

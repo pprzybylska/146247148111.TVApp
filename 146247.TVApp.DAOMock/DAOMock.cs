@@ -1,11 +1,6 @@
 ﻿using _146247.TVApp.DAOMock;
 using _146247148111.TVApp.Core;
 using _146247148111.TVApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _146247148111.TVApp.DAOMock
 {
@@ -36,12 +31,17 @@ namespace _146247148111.TVApp.DAOMock
 
         public IProducer CreateNewProducer(int ID, string Name, string Country)
         {
-            return new Producer { ID=ID, Name=Name, Country=Country };  //TO DO
+            var producer = new Producer { ID=ID, Name=Name, Country=Country };
+            producers.Add(producer);
+            return producer;
         }
 
         public ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
         {
-            return new TV { ID=ID, Name=Name, ProducerId=ProducerId, Screen=Screen, ScreenSize=ScreenSize };  //TO DO
+            var producerIndex = producers.FindIndex(producers => producers.ID == ProducerId);
+            var tv = new TV { ID=ID, Name=Name, ProducerId=ProducerId, Producer = producers[producerIndex], Screen=Screen, ScreenSize=ScreenSize };
+            TVs.Add(tv);
+            return tv;
         }
 
         public IEnumerable<IProducer> GetAllProducers()
@@ -51,19 +51,99 @@ namespace _146247148111.TVApp.DAOMock
 
         public IEnumerable<ITV> GetAllTV()
         {
-            return TVs; 
+            return TVs;
         }
 
         public bool DeleteProducerById(int producerId)
         {
+            int indexToRemove = producers.FindIndex(producers => producers.ID == producerId);
 
-            return false; //TO DO
+            if (indexToRemove != -1)
+            {
+                producers.RemoveAt(indexToRemove);
+                return true;
+            }
+            return false;
         }
 
         public bool DeleteTVById(int TVId)
         {
+            int indexToRemove = TVs.FindIndex(tv => tv.ID == TVId);
 
-            return false;  //TO DO
+            if (indexToRemove != -1)
+            {
+                TVs.RemoveAt(indexToRemove);
+                return true;
+            }
+            return false;
         }
+
+        public IProducer UpdateProducer(int ID, string Name, string Country)
+        {
+            int indexToUpdate = producers.FindIndex(producers => producers.ID == ID);
+            if (indexToUpdate != -1)
+            {
+                var producer = producers[indexToUpdate];
+                producer.Name = Name;
+                producer.Country = Country;
+                return producer;
+            }
+
+            return null;
+        }
+
+        public ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        {
+            int indexToUpdate = TVs.FindIndex(TVs => TVs.ID == ID);
+            if (indexToUpdate != -1)
+            {
+                var tv = TVs[indexToUpdate];
+                tv.Name = Name;
+                tv.ProducerId = ProducerId;
+                var producerIndex = producers.FindIndex(producers => producers.ID == ProducerId);
+                tv.Producer = producers[producerIndex];
+                tv.Screen = Screen;
+                tv.ScreenSize = ScreenSize;
+                return tv;
+            }
+            return null;
+        }
+
+        public IEnumerable<ITV> SearchTVsByKeyword(string keyword)
+        {
+            List<ITV> matchingTVs = TVs
+            .Where(tv => tv.ToString().IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+            .ToList();
+
+            return matchingTVs;
+        }
+
+        public IEnumerable<ITV> FilterByProducer(string producer)
+        {
+            List<ITV> filteredTVs = TVs
+                .Where(tv => tv.Producer.Name.Equals(producer, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return filteredTVs;
+        }
+
+        public IEnumerable<ITV> FilterByScreenSize(double minSize = 0, double maxSize = 100)
+        {
+            List<ITV> filteredTVs = TVs
+                .Where(tv => tv.ScreenSize >= minSize && ((TV)tv).ScreenSize <= maxSize)
+                .ToList();
+
+            return filteredTVs;
+        }
+
+        public IEnumerable<ITV> FilterByScreenType(ScreenType screenType)
+        {
+            List<ITV> filteredTVs = TVs
+                .Where(tv => tv.Screen == screenType)
+                .ToList();
+
+            return filteredTVs;
+        }
+
     }
 }
