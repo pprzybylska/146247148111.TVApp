@@ -56,5 +56,34 @@ namespace _146247148111.TVApp.BLC
         {
             return dao.DeleteTVById(TVId);
         }
+
+        public IProducer UpdateProducer(int ID, string Name, string Country)
+        {
+            return dao.UpdateProducer(ID, Name, Country);
+        }
+
+        public ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        {
+            return dao.UpdateTV(ID, Name, ProducerId, Screen, ScreenSize);
+        }
+
+        public IEnumerable<ITV> SearchTVsByKeyword(string keyword)
+        {
+            return dao.SearchTVsByKeyword(keyword);
+        }
+
+        public IEnumerable<ITV> FilterByProducer(string producer)
+        {
+            return dao.FilterByProducer(producer);
+        }
+        public IEnumerable<ITV> FilterByScreenSize(double minSize = 0, double maxSize = 100)
+        {
+            return dao.FilterByScreenSize(minSize, maxSize);
+        }
+
+        public IEnumerable<ITV> FilterByScreenType(ScreenType screenType)
+        {
+            return dao.FilterByScreenType(screenType);
+        }
     }
 }
