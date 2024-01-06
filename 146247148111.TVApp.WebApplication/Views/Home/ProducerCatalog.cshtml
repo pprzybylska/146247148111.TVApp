@@ -1,0 +1,46 @@
+﻿@model IEnumerable<_146247148111.TVApp.Interfaces.IProducer>
+
+@{
+    ViewData["Title"] = "DisplayData";
+}
+
+<h1>DisplayData</h1>
+
+<p>
+    <a asp-action="CreateProducer">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "DeleteProducer", new { id = item.ID }, new { onclick = "return confirm('Are you sure you want to delete this producer? It will cause deleting all TVs of this producer from the catalog.');" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

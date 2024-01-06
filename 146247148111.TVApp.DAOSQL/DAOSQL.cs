@@ -9,27 +9,42 @@ namespace _146247148111.TVApp.DAOSQL
 {
     public class DAOSQL : IDAO
     {
-        public IProducer CreateNewProducer(int ID, string Name, string Country)
+        public IProducer CreateNewProducer(string Name, string Country)
         {
             var context = new Context();
-            var producer = new Producer { ID=ID, Name=Name, Country=Country };
+
+            var lowestAvailableProducerId = 1;
+            while (context.producers.Any(tv => tv.ID == lowestAvailableProducerId))
+            {
+                lowestAvailableProducerId++;
+            }
+
+            var producer = new Producer { ID=lowestAvailableProducerId, Name=Name, Country=Country };
             context.producers.Add(producer);
             context.SaveChanges();
             return producer;
         }
 
-        public ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        public ITV CreateNewTV(string Name, string ProducerName, ScreenType Screen, int ScreenSize)
         {
             var context = new Context();
-            var existingProducer = context.producers.FirstOrDefault(p => p.ID == ProducerId);
+
+            var lowestAvailableTvId = 1;
+            while (context.TVs.Any(tv => tv.ID == lowestAvailableTvId))
+            {
+                lowestAvailableTvId++;
+            }
+
+            Console.WriteLine(ProducerName);
+            var existingProducer = context.producers.FirstOrDefault(p => p.Name.Equals(ProducerName));
 
             if (existingProducer == null)
             {
-                Console.WriteLine("Producent o podanym ID nie istnieje.");
+                Console.WriteLine("Producent o podanym imieniu nie istnieje.");
                 return null;
             }
 
-            var tv = new TV { ID=ID, Name=Name, ProducerId=ProducerId, Producer=existingProducer, Screen=Screen, ScreenSize=ScreenSize };
+            var tv = new TV {ID=lowestAvailableTvId, Name=Name, ProducerId=existingProducer.ID, Producer=existingProducer, Screen=Screen, ScreenSize=ScreenSize };
 
             context.TVs.Add(tv);
             context.SaveChanges();
@@ -52,6 +67,13 @@ namespace _146247148111.TVApp.DAOSQL
         {
             var context = new Context();
             var producerToDelete = context.producers.FirstOrDefault(p => p.ID == producerId);
+            IEnumerable<TV> tvsToDelete = context.TVs.Where(tv => tv.ProducerId == producerId);
+
+            if (tvsToDelete.Any())
+            {
+                context.TVs.RemoveRange(tvsToDelete);
+                context.SaveChanges();
+            }
 
             if (producerToDelete != null)
             {
@@ -157,5 +179,6 @@ namespace _146247148111.TVApp.DAOSQL
             return filteredTVs;
 
         }
+
     }
 }

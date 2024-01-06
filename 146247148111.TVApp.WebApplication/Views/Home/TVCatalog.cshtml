@@ -1,0 +1,58 @@
+﻿@model IEnumerable<_146247148111.TVApp.Interfaces.ITV>
+
+@{
+    ViewData["Title"] = "TV Catalog";
+}
+
+<h1>TV Catalog</h1>
+
+<p>
+    <a method="get" asp-action="CreateTV">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producer.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScreenSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Screen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScreenSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Screen)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                    @Html.ActionLink("Delete", "DeleteTV", new { id = item.ID }, new { onclick = "return confirm('Are you sure you want to delete this tv?');" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

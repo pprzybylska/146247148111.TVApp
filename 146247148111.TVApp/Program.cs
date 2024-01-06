@@ -5,7 +5,7 @@ Console.WriteLine("Hello World!");
 string libraryName = System.Configuration.ConfigurationManager.AppSettings["DAOLibraryName"];
 BLC blc = new BLC(libraryName);
 
-var prod = blc.CreateNewProducer(15, "Sa234214GF234234D3453mf23423SDFdgsung", "South Korea");
+var prod = blc.CreateNewProducer( "Sa234214GF234234D3453mf23423SDFdgsung", "South Korea");
 blc.DeleteTVById(1);
 blc.DeleteTVById(2);
 blc.DeleteTVById(3);
@@ -18,7 +18,7 @@ foreach (IProducer p in blc.GetProducers())
 Console.WriteLine("_______________________");
 
 
-blc.CreateNewTV(1, "afSDFa", 15, _146247148111.TVApp.Core.ScreenType.Plasma, 55);
+blc.CreateNewTV("afSDFa", "Samsung", _146247148111.TVApp.Core.ScreenType.Plasma, 55);
 
 foreach (ITV t in blc.GetTVs())
 {

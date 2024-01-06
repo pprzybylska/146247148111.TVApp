@@ -29,17 +29,29 @@ namespace _146247148111.TVApp.DAOMock
             };
         }
 
-        public IProducer CreateNewProducer(int ID, string Name, string Country)
+        public IProducer CreateNewProducer(string Name, string Country)
         {
-            var producer = new Producer { ID=ID, Name=Name, Country=Country };
+            var lowestAvailableProducerId = 1;
+            while (producers.Any(tv => tv.ID == lowestAvailableProducerId))
+            {
+                lowestAvailableProducerId++;
+            }
+
+            var producer = new Producer { ID=lowestAvailableProducerId, Name=Name, Country=Country };
             producers.Add(producer);
             return producer;
         }
 
-        public ITV CreateNewTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        public ITV CreateNewTV(string Name, string ProducerName, ScreenType Screen, int ScreenSize)
         {
-            var producerIndex = producers.FindIndex(producers => producers.ID == ProducerId);
-            var tv = new TV { ID=ID, Name=Name, ProducerId=ProducerId, Producer = producers[producerIndex], Screen=Screen, ScreenSize=ScreenSize };
+            var lowestAvailableTvId = 1;
+            while (TVs.Any(tv => tv.ID == lowestAvailableTvId))
+            {
+                lowestAvailableTvId++;
+            }
+
+            var producerIndex = producers.FindIndex(producers => producers.Name.Equals(ProducerName));
+            var tv = new TV { ID=lowestAvailableTvId, Name=Name, ProducerId=producers[producerIndex].ID, Producer = producers[producerIndex], Screen=Screen, ScreenSize=ScreenSize };
             TVs.Add(tv);
             return tv;
         }
@@ -58,6 +70,7 @@ namespace _146247148111.TVApp.DAOMock
         {
             int indexToRemove = producers.FindIndex(producers => producers.ID == producerId);
 
+            TVs.RemoveAll(tv => tv.ProducerId == producerId);
             if (indexToRemove != -1)
             {
                 producers.RemoveAt(indexToRemove);
