@@ -10,13 +10,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="UpdateTV">
+        <form method="post" asp-action="UpdateTV">
+            <input type="hidden" asp-for="ID" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" />
-                <span asp-validation-for="ID" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -25,7 +22,7 @@
             <div class="form-group">
                 <label for="ProducerName" class="control-label">Producer Name</label>
                 <select name="ProducerName" asp-items="@ViewBag.ProducerNames" class="form-control">
-                    <option value="">-- Select Producer --</option>
+                    <option value="" hidden>@ViewBag.OldProducerName</option>
                 </select>
             </div>
             <div class="form-group">
@@ -52,5 +49,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

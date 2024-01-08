@@ -2,8 +2,7 @@
 using _146247148111.TVApp.Interfaces;
 using _146247.TVApp.DAOSQL;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace _146247148111.TVApp.DAOSQL
 {
@@ -117,15 +116,17 @@ namespace _146247148111.TVApp.DAOSQL
             return null;
         }
 
-        public ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        public ITV UpdateTV(int ID, string Name, string ProducerName, ScreenType Screen, int ScreenSize)
         {
             var context = new Context();
             var TVToUpdate = context.TVs.FirstOrDefault(p => p.ID == ID);
+
+
             if (TVToUpdate != null)
             {
+                var existingProducer = context.producers.FirstOrDefault(p => p.Name.Equals(ProducerName));
                 TVToUpdate.Name = Name;
-                TVToUpdate.ProducerId = ProducerId;
-                var existingProducer = context.producers.FirstOrDefault(p => p.ID == ProducerId);
+                TVToUpdate.ProducerId = existingProducer.ID;
                 TVToUpdate.Producer = existingProducer;
                 TVToUpdate.Screen = Screen;
                 TVToUpdate.ScreenSize = ScreenSize;
@@ -136,31 +137,54 @@ namespace _146247148111.TVApp.DAOSQL
             return null;
         }
         public IEnumerable<ITV> SearchTVsByKeyword(string keyword)
-        {
+    {
             var context = new Context();
 
-            var matchingTVs = context.TVs
-                    .Where(tv => EF.Functions.Like(tv.ToString(), $"%{keyword}%"))
+            if (keyword != null)
+            {
+                IEnumerable<ITV> matchingTVs = context.TVs.Include(t => t.Producer).ToList()
+                    .Where(tv =>
+                        tv.Name.ToLower().Contains(keyword.ToLower()) ||
+                        tv.Producer.Name.ToLower().Contains(keyword.ToLower()) ||
+                        tv.Screen.ToString().ToLower().Contains(keyword.ToLower()) ||
+                        tv.ScreenSize.ToString().ToLower().Contains(keyword.ToLower()))
                     .ToList();
 
-            return matchingTVs;
+                return matchingTVs;
+            }
 
+            return GetAllTV();
         }
 
         public IEnumerable<ITV> FilterByProducer(string producer)
         {
             var context = new Context();
-            var filteredTVs = context.TVs
-                .Where(tv => tv.Producer.Name.Equals(producer, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            if (producer  != null)
+            {
+                var filteredTVs = context.TVs.Include(t => t.Producer).ToList()
+                    .Where(tv => tv.Producer.Name.Equals(producer, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                return filteredTVs;
+            }
 
-            return filteredTVs;
-
+            return GetAllTV();
         }
 
-        public IEnumerable<ITV> FilterByScreenSize(double minSize = 0, double maxSize = 100)
+        public IEnumerable<ITV> FilterByScreenSize(double? minSize, double? maxSize)
         {
+            if (minSize == null)
+            {
+                minSize = 0;
+            }
+
+            if (maxSize == null || maxSize == 0)
+            {
+                maxSize = 200;
+            }
+
+            Console.WriteLine(minSize.ToString() + " " + maxSize.ToString());
             var context = new Context();
+
             var filteredTVs = context.TVs
                 .Where(tv => tv.ScreenSize >= minSize && tv.ScreenSize <= maxSize)
                 .ToList();
@@ -172,11 +196,15 @@ namespace _146247148111.TVApp.DAOSQL
         public IEnumerable<ITV> FilterByScreenType(ScreenType screenType)
         {
             var context = new Context();
-            var filteredTVs = context.TVs
-                .Where(tv => tv.Screen == screenType)
-                .ToList();
 
-            return filteredTVs;
+            if (screenType != null)
+            {
+                var filteredTVs = context.TVs
+                    .Where(tv => tv.Screen == screenType)
+                    .ToList();
+                return filteredTVs;
+            }
+            return GetAllTV();
 
         }
 

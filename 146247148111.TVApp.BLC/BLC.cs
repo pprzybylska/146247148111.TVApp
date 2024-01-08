@@ -62,9 +62,9 @@ namespace _146247148111.TVApp.BLC
             return dao.UpdateProducer(ID, Name, Country);
         }
 
-        public ITV UpdateTV(int ID, string Name, int ProducerId, ScreenType Screen, int ScreenSize)
+        public ITV UpdateTV(int ID, string Name, string ProducerName, ScreenType Screen, int ScreenSize)
         {
-            return dao.UpdateTV(ID, Name, ProducerId, Screen, ScreenSize);
+            return dao.UpdateTV(ID, Name, ProducerName, Screen, ScreenSize);
         }
 
         public IEnumerable<ITV> SearchTVsByKeyword(string keyword)

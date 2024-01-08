@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Configuration;
 using System.Diagnostics;
 using System.Transactions;
+using System.Xml.Linq;
 
 namespace _146247148111.TVApp.WebApplication.Controllers
 {
@@ -60,8 +61,32 @@ namespace _146247148111.TVApp.WebApplication.Controllers
             return RedirectToAction("ProducerCatalog");
         }
 
+        [HttpGet]
+        public IActionResult UpdateProducer(int ID)
+        {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producerOld = producers.FirstOrDefault(p => p.ID == ID);
+            return View(producerOld);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProducer(int ID, string Name, string Country)
+        {
+            IProducer producer = BLC_object.UpdateProducer(ID, Name, Country);
+            if (producer != null)
+            {
+                return RedirectToAction("ProducerCatalog");
+            }
+
+            return View();
+
+        }
+
         public IActionResult TVCatalog()
         {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producersNames = producers.Select(p => p.Name).ToList();
+            ViewBag.ProducerNames = new SelectList(producersNames);
             IEnumerable<ITV> TVs = BLC_object.GetTVs();
             return View(TVs);
         }
@@ -99,13 +124,55 @@ namespace _146247148111.TVApp.WebApplication.Controllers
         {
             IEnumerable<IProducer> producers = BLC_object.GetProducers();
             var producersNames = producers.Select(p => p.Name).ToList();
+            IEnumerable<ITV> tvs = BLC_object.GetTVs();
+            var tvOld = tvs.FirstOrDefault(tv => tv.ID == ID);
+            ViewBag.OldProducerName = producers.FirstOrDefault(p => p.ID == tvOld?.ProducerId)?.Name;
+            Console.WriteLine(ViewBag.OldProducerName);
             ViewBag.ProducerNames = new SelectList(producersNames);
+            return View(tvOld);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateTV(int ID, string Name, string ProducerName, ScreenType Screen, int ScreenSize)
+        {
+            Console.WriteLine("Post" + ProducerName);
+            ITV tv = BLC_object.UpdateTV(ID, Name, ProducerName, Screen, ScreenSize);
+
+            if (tv !=  null)
+            {
+                return RedirectToAction("TVCatalog");
+            }
+
             return View();
+        }
+
+        public IActionResult SearchTvs(string keywords)
+        {
+            IEnumerable<ITV> SearchedTVs = BLC_object.SearchTVsByKeyword(keywords);
+            return View("TVCatalog", SearchedTVs);
+        }
+
+        public IActionResult FilterTVsByProducer(string producer)
+        {
+            IEnumerable<ITV> FilteredTVs = BLC_object.FilterByProducer(producer);
+            return View("TVCatalog", FilteredTVs);
+        }
+
+        public IActionResult FilterTVsByScreenSize(int minSize, int maxSize)
+        {
+            IEnumerable<ITV> FilteredTVs = BLC_object.FilterByScreenSize(minSize, maxSize);
+            return View("TVCatalog", FilteredTVs);
+        }
+
+        public IActionResult FilterTVsByScreenType(ScreenType screenType)
+        {
+            IEnumerable<ITV> FilteredTVs = BLC_object.FilterByScreenType(screenType);
+            return View("TVCatalog", FilteredTVs);
         }
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("TVCatalog");
         }
 
         public IActionResult Privacy()
