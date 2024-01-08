@@ -15,4 +15,43 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #f8f9fa;
+}
+
+h1 {
+    color: #007bff;
+}
+
+.form-row {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: center;
+}
+
+a {
+    color: #28a745;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
 }

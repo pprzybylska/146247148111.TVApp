@@ -4,111 +4,109 @@
     ViewData["Title"] = "TV Catalog";
 }
 
-<h1>TV Catalog</h1>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\wwwroot\css\site.css">
 
-<form asp-controller="Home" asp-action="SearchTvs" method="get">
-    <div class="form-row">
-        <div class="form-group col-md-3">
-            <label for="Keywords">Search TV:</label>
-            <input type="text" id="Keywords" name="Keywords" class="form-control" />
-        </div>
-        <div class="form-group col-md-3">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>TV Catalog</h1>
+
+        <form asp-controller="Home" asp-action="SearchTvs" method="get" class="form-row">
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label for="Keywords">Search TV:</label>
+                    <div class="d-flex">
+                        <input type="text" id="Keywords" name="Keywords" class="form-control" />
+                        <button type="submit" class="btn btn-primary ml-2">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <form asp-controller="Home" asp-action="FilterTvsByProducer" method="get" class="form-row d-flex align-items-center">
+            <div class="form-group col-md-3">
+                <label for="producer" class="control-label">Producer Name:</label>
+                <select name="producer" asp-items="@ViewBag.ProducerNames" class="form-control">
+                    <option value="" hidden>-- Select Producer --</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary">Search by Producer</button>
+            </div>
+        </form>
+
+
+        <form asp-controller="Home" asp-action="FilterTvsByScreenSize" method="get" class="form-row d-flex align-items-center">
+            <div class="form-group col-md-3">
+                <label for="MinScreenSize">Min Screen Size:</label>
+                <input type="number" id="minSize" name="minSize" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="MaxScreenSize">Max Screen Size:</label>
+                <input type="number" id="maxSize" name="maxSize" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary">Search by Screen Size</button>
+            </div>
+        </form>
+
+
+        <form asp-controller="Home" asp-action="FilterTvsByScreenType" method="get" class="form-row d-flex align-items-center">
+            <label for="screenType" class="control-label"></label>
+            <div class="form-group col-md-3">
+                <select for="screenType" name="screenType" asp-items="Html.GetEnumSelectList<_146247148111.TVApp.Core.ScreenType>()" class="form-control">
+                    <option value="" hidden>-- Filter By Screen Type --</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary">Search by Screen Type</button>
+            </div>
+        </form>
+
+
+
+        <p>
+            <a method="get" asp-action="CreateTV" class="btn btn-primary">Create New</a>
+        </p>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ID)</th>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Producer.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.ScreenSize)</th>
+                    <th>@Html.DisplayNameFor(model => model.Screen)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Producer.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ScreenSize)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Screen)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "UpdateTV", new { id = item.ID }, new { @class = "btn btn-primary btn-sm" }) |
+                            @Html.ActionLink("Delete", "DeleteTV", new { id = item.ID }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Are you sure you want to delete this TV?');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</form>
 
-<!-- Formularz dla wyszukiwania po producencie -->
-<form asp-controller="Home" asp-action="FilterTvsByProducer" method="get">
-    <div class="form-row">
-        <label for="producer" class="control-label">Producer Name</label>
-        <select name="producer" asp-items="@ViewBag.ProducerNames" class="form-control">
-            <option value="" hidden>-- Select Producer --</option>
-        </select>
-        <div class="form-group col-md-3">
-            <button type="submit" class="btn btn-primary">Search by Producer</button>
-        </div>
-    </div>
-</form>
-
-<!-- Formularz dla wyszukiwania po szerokości ekranu -->
-<form asp-controller="Home" asp-action="FilterTvsByScreenSize" method="get">
-    <div class="form-row">
-        <div class="form-group col-md-3">
-            <label for="MinScreenSize">Min Screen Size:</label>
-            <input type="number" id="minSize" name="minSize" class="form-control" />
-        </div>
-        <div class="form-group col-md-3">
-            <label for="MaxScreenSize">Max Screen Size:</label>
-            <input type="number" id="maxSize" name="maxSize" class="form-control" />
-        </div>
-        <div class="form-group col-md-3">
-            <button type="submit" class="btn btn-primary">Search by Screen Size</button>
-        </div>
-    </div>
-</form>
-
-<form asp-controller="Home" asp-action="FilterTvsByScreenType" method="get">
-    <div class="form-row">
-
-        <label for="screenType" class="control-label"></label>
-        <select for="screenType" name="screenType" asp-items="Html.GetEnumSelectList<_146247148111.TVApp.Core.ScreenType>()" class="form-control">
-            <option value="" hidden>-- Filter By Screen Type --</option>
-        </select>
-        <div class="form-group col-md-3">
-            <button type="submit" class="btn btn-primary">Search by Screen Type</button>
-        </div>
-    </div>
-</form>
-
-
-<p>
-    <a method="get" asp-action="CreateTV">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Producer.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ScreenSize)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Screen)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenSize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Screen)
-            </td>
-            <td>
-                    @Html.ActionLink("Edit", "UpdateTV", new { id=item.ID }) |
-                    @Html.ActionLink("Delete", "DeleteTV", new { id = item.ID }, new { onclick = "return confirm('Are you sure you want to delete this tv?');" })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+</body>
+</html>
