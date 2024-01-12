@@ -4,52 +4,69 @@
     ViewData["Title"] = "UpdateTV";
 }
 
-<h1>UpdateTV</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\wwwroot\css\site.css">
+</head>
 
-<h4>ITV</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-action="UpdateTV">
-            <input type="hidden" asp-for="ID" />
+<body>
+    <div class="container">
+        <h1 class="mt-4">UpdateTV</h1>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" asp-action="UpdateTV">
+                    <input type="hidden" asp-for="ID" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">TV Name</label>
+                        <input asp-for="Name" class="form-control" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ProducerName" class="control-label">Producer Name</label>
+                        <select name="ProducerName" asp-items="@ViewBag.ProducerNames" class="form-control" required>
+                            <option value="@ViewBag.OldProducerName" hidden>@ViewBag.OldProducerName</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ScreenSize" class="control-label">Screen Size</label>
+                        <input asp-for="ScreenSize" class="form-control" required/>
+                        <span asp-validation-for="ScreenSize" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Screen" class="control-label">Screen Type</label>
+                        <select asp-for="Screen" asp-items="Html.GetEnumSelectList<_146247148111.TVApp.Core.ScreenType>()" class="form-control" required>
+                            <option value="">-- Select Screen Type --</option>
+                        </select>
+                        <span asp-validation-for="Screen" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="ProducerName" class="control-label">Producer Name</label>
-                <select name="ProducerName" asp-items="@ViewBag.ProducerNames" class="form-control">
-                    <option value="" hidden>@ViewBag.OldProducerName</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ScreenSize" class="control-label"></label>
-                <input asp-for="ScreenSize" class="form-control" />
-                <span asp-validation-for="ScreenSize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Screen" class="control-label"></label>
-                <select asp-for="Screen" asp-items="Html.GetEnumSelectList<_146247148111.TVApp.Core.ScreenType>()" class="form-control">
-                    <option value="">-- Select Screen Type --</option>
-                </select>
-                <span asp-validation-for="Screen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="mt-3">
+            <a asp-action="TVCatalog" class="btn btn-secondary">Back to List</a>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="TVCatalog">Back to List</a>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -182,10 +182,9 @@ namespace _146247148111.TVApp.DAOSQL
                 maxSize = 200;
             }
 
-            Console.WriteLine(minSize.ToString() + " " + maxSize.ToString());
             var context = new Context();
 
-            var filteredTVs = context.TVs
+            var filteredTVs = context.TVs.Include(t => t.Producer).ToList()
                 .Where(tv => tv.ScreenSize >= minSize && tv.ScreenSize <= maxSize)
                 .ToList();
 
@@ -199,7 +198,7 @@ namespace _146247148111.TVApp.DAOSQL
 
             if (screenType != null)
             {
-                var filteredTVs = context.TVs
+                var filteredTVs = context.TVs.Include(t => t.Producer).ToList()
                     .Where(tv => tv.Screen == screenType)
                     .ToList();
                 return filteredTVs;

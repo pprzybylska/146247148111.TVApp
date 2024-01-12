@@ -4,43 +4,51 @@
     ViewData["Title"] = "Producer Catalog";
 }
 
-<h1>Producer Catalog</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\wwwroot\css\site.css">
+</head>
 
-<p>
-    <a asp-action="CreateProducer">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "UpdateProducer", new { id=item.ID }) |
-                @Html.ActionLink("Delete", "DeleteProducer", new { id = item.ID }, new { onclick = "return confirm('Are you sure you want to delete this producer? It will cause deleting all TVs of this producer from the catalog.');" })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Producer Catalog</h1>
+
+        <p>
+            <a asp-action="CreateProducer" class="btn btn-primary">Create New</a>
+        </p>
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ID)</th>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Country)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                        <td>
+                            <a asp-action="UpdateProducer" asp-route-id="@item.ID" class="btn btn-primary btn-sm">Edit</a> |
+                            <a asp-action="DeleteProducer" asp-route-id="@item.ID" onclick="return confirm('Are you sure you want to delete this producer? It will cause deleting all TVs of this producer from the catalog.');" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

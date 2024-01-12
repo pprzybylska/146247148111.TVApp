@@ -10,8 +10,10 @@ namespace _146247148111.TVApp.DAOSQL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            optionsBuilder.UseSqlite($"Data source={basePath}/tvapp_db.db");
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.IndexOf("bin"));
+            string solutionPath = Path.GetFullPath(Path.Combine(baseDirectory, @"..\"));
+            string dbPath = Path.Combine(solutionPath, "tvapp_db.db");
+            optionsBuilder.UseSqlite($"Data source={dbPath}");
         }
 
 

@@ -20,12 +20,10 @@ namespace _146247148111.TVApp.WebApplication.Controllers
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             string execPath = System.Reflection.Assembly.GetEntryAssembly().Location;
-            Console.WriteLine(execPath);
             _configuration = configuration;
             string libraryName = _configuration["DAOLibraryName"];
-            Console.WriteLine(libraryName);
 
-            BLC_object = new BLC.BLC(libraryName);
+            BLC_object = BLC.BLC.GetInstance(libraryName);
 
             _logger = logger;
         }
@@ -148,24 +146,36 @@ namespace _146247148111.TVApp.WebApplication.Controllers
 
         public IActionResult SearchTvs(string keywords)
         {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producersNames = producers.Select(p => p.Name).ToList();
+            ViewBag.ProducerNames = new SelectList(producersNames);
             IEnumerable<ITV> SearchedTVs = BLC_object.SearchTVsByKeyword(keywords);
             return View("TVCatalog", SearchedTVs);
         }
 
         public IActionResult FilterTVsByProducer(string producer)
         {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producersNames = producers.Select(p => p.Name).ToList();
+            ViewBag.ProducerNames = new SelectList(producersNames);
             IEnumerable<ITV> FilteredTVs = BLC_object.FilterByProducer(producer);
             return View("TVCatalog", FilteredTVs);
         }
 
         public IActionResult FilterTVsByScreenSize(int minSize, int maxSize)
         {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producersNames = producers.Select(p => p.Name).ToList();
+            ViewBag.ProducerNames = new SelectList(producersNames);
             IEnumerable<ITV> FilteredTVs = BLC_object.FilterByScreenSize(minSize, maxSize);
             return View("TVCatalog", FilteredTVs);
         }
 
         public IActionResult FilterTVsByScreenType(ScreenType screenType)
         {
+            IEnumerable<IProducer> producers = BLC_object.GetProducers();
+            var producersNames = producers.Select(p => p.Name).ToList();
+            ViewBag.ProducerNames = new SelectList(producersNames);
             IEnumerable<ITV> FilteredTVs = BLC_object.FilterByScreenType(screenType);
             return View("TVCatalog", FilteredTVs);
         }

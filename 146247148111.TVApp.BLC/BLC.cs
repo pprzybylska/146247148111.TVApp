@@ -6,26 +6,45 @@ namespace _146247148111.TVApp.BLC
 {
     public class BLC
     {
+        private static BLC instance;
+        private static readonly object lockObject = new object();
         private IDAO dao;
 
-        public BLC(string libraryName)
+        private BLC(IDAO daoInstance)
         {
-            Type? typeToCreate = null;
+            dao = daoInstance;
+        }
 
-            Assembly assembly = Assembly.UnsafeLoadFrom(libraryName);
-
-            foreach (Type type in assembly.GetTypes())
+        public static BLC GetInstance(string libraryName)
+        {
+            if (instance == null)
             {
-                if (type.IsAssignableTo(typeof(IDAO)))
+                lock (lockObject)
                 {
-                    typeToCreate = type;
-                    break;
+                    if (instance == null)
+                    {
+                        Type typeToCreate = null;
+
+                        Assembly assembly = Assembly.UnsafeLoadFrom(libraryName);
+
+                        foreach (Type type in assembly.GetTypes())
+                        {
+                            if (type.IsAssignableTo(typeof(IDAO)))
+                            {
+                                typeToCreate = type;
+                                break;
+                            }
+                        }
+
+                        IDAO daoInstance = (IDAO)Activator.CreateInstance(typeToCreate, null);
+                        instance = new BLC(daoInstance);
+                    }
                 }
             }
 
-            dao = (IDAO)Activator.CreateInstance(typeToCreate, null);
-
+            return instance;
         }
+
 
         public IEnumerable<IProducer> GetProducers()
         {

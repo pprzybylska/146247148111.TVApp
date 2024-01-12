@@ -3,7 +3,7 @@ using _146247148111.TVApp.Interfaces;
 
 Console.WriteLine("Hello World!");
 string libraryName = System.Configuration.ConfigurationManager.AppSettings["DAOLibraryName"];
-BLC blc = new BLC(libraryName);
+BLC blc = BLC.GetInstance(libraryName);
 
 var prod = blc.CreateNewProducer( "Sa234214GF234234D3453mf23423SDFdgsung", "South Korea");
 blc.DeleteTVById(1);
