@@ -57,9 +57,40 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="146247148111.TVApp.BLC">
+	    <HintPath>..\146247148111.TVApp.WebApplication\bin\Debug\net6.0\146247148111.TVApp.BLC.dll</HintPath>
+	  </Reference>
+	  <Reference Include="146247148111.TVApp.Core">
+	    <HintPath>..\146247148111.TVApp.WebApplication\bin\Debug\net6.0\146247148111.TVApp.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="146247148111.TVApp.DAOMock">
+	    <HintPath>..\146247.TVApp.DAOMock\bin\Debug\net6.0\146247148111.TVApp.DAOMock.dll</HintPath>
+	  </Reference>
+	  <Reference Include="146247148111.TVApp.Interfaces">
+	    <HintPath>..\146247148111.TVApp.WebApplication\bin\Debug\net6.0\146247148111.TVApp.Interfaces.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="AddNewProducer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AddNewTV.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ProducersCatalogView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="TVCatalogView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

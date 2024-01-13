@@ -7,9 +7,37 @@
     Shell.FlyoutBehavior="Disabled"
     Title="_146247148111.TVApp.MAUI">
 
-    <ShellContent
+    <FlyoutItem>
+
+        <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+        <Tab Title="Television">
+            <ShellContent
+            Title="TV Catalog"
+            ContentTemplate="{DataTemplate local:TVCatalogView}"
+            Route="TV Catalog View" />
+
+            <ShellContent
+            Title="Add New TV"
+            ContentTemplate="{DataTemplate local:AddNewTV}"
+            Route="New TV" />
+        </Tab>
+
+        <Tab Title="Producer">
+            <ShellContent
+            Title="Producers Catalog"
+            ContentTemplate="{DataTemplate local:ProducersCatalogView}"
+            Route="Producers" />
+
+            <ShellContent
+            Title="Add New Producer"
+            ContentTemplate="{DataTemplate local:AddNewProducer}"
+            Route="New Producer" />
+        </Tab>
+
+    </FlyoutItem>
+    
 </Shell>
