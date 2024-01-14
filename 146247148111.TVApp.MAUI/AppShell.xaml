@@ -17,7 +17,7 @@
         <Tab Title="Television">
             <ShellContent
             Title="TV Catalog"
-            ContentTemplate="{DataTemplate local:TVCatalogView}"
+            ContentTemplate="{DataTemplate local:CatalogTVView}"
             Route="TV Catalog View" />
 
             <ShellContent

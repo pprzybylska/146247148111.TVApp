@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:viewModel="clr-namespace:_146247148111.TVApp.ViewModel;assembly=146247148111.TVApp.ViewModel"
-                 x:Class="_146247148111.TVApp.MAUI.ProducersCatalogView"
-                 Title="ProducersCatalogView">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:_146247148111.TVApp.ViewModel;assembly=146247148111.TVApp.ViewModel"
+             x:Class="_146247148111.TVApp.MAUI.CatalogTVView"
+             Title="CatalogTVView"
+             >
     <VerticalStackLayout>
-        <ListView ItemsSource="{ Binding Producers }">
+        <ListView ItemsSource="{Binding Tvs}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <VerticalStackLayout x:DataType="viewModel:ProducerViewModel">
+                        <VerticalStackLayout x:DataType="viewModel:TVViewModelV2">
                             <Label Text="{ Binding Name}"/>
                         </VerticalStackLayout>
                     </ViewCell>

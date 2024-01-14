@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\146247148111.TVApp.BLC\146247148111.TVApp.BLC.csproj" />
     <ProjectReference Include="..\146247148111.TVApp.Core\146247148111.TVApp.Core.csproj" />
-    <ProjectReference Include="..\146247148111.TVApp.DAOSQL\146247148111.TVApp.DAOSQL.csproj" />
     <ProjectReference Include="..\146247148111.TVApp.Interfaces\146247148111.TVApp.Interfaces.csproj" />
   </ItemGroup>
 

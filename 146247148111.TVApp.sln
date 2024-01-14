@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "146247148111.TVApp.WebAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "146247148111.TVApp.MAUI", "146247148111.TVApp.MAUI\146247148111.TVApp.MAUI.csproj", "{B8C0CC45-5A5F-49C1-A4F5-65BD9C14C1F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "146247148111.TVApp.ViewModel", "146247148111.TVApp.ViewModel\146247148111.TVApp.ViewModel.csproj", "{0951BE07-E0CE-4964-A540-C0C6EB469531}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{B8C0CC45-5A5F-49C1-A4F5-65BD9C14C1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8C0CC45-5A5F-49C1-A4F5-65BD9C14C1F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8C0CC45-5A5F-49C1-A4F5-65BD9C14C1F2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0951BE07-E0CE-4964-A540-C0C6EB469531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0951BE07-E0CE-4964-A540-C0C6EB469531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0951BE07-E0CE-4964-A540-C0C6EB469531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0951BE07-E0CE-4964-A540-C0C6EB469531}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

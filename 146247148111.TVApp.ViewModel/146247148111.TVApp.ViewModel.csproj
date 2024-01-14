@@ -20,8 +20,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\146247148111.TVApp.BLC\146247148111.TVApp.BLC.csproj" />
+	  <ProjectReference Include="..\146247148111.TVApp.Core\146247148111.TVApp.Core.csproj" />
+	  <ProjectReference Include="..\146247148111.TVApp.Interfaces\146247148111.TVApp.Interfaces.csproj" />
 	</ItemGroup>
 
 </Project>
