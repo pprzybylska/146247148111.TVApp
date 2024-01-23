@@ -6,13 +6,21 @@
                  x:Class="_146247148111.TVApp.MAUI.ProducersCatalogView"
                  Title="ProducersCatalogView">
     <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="ID" WidthRequest="50"/>
+            <Label Text="Name" WidthRequest="300"/>
+            <Label Text="Country" WidthRequest="200"/>
+        </HorizontalStackLayout>
+        
         <ListView ItemsSource="{ Binding Producers }">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <VerticalStackLayout x:DataType="viewModel:ProducerViewModel">
-                            <Label Text="{ Binding Name}"/>
-                        </VerticalStackLayout>
+                        <HorizontalStackLayout x:DataType="viewModel:ProducerViewModel">
+                            <Label Text="{ Binding ID}" WidthRequest="50"/>
+                            <Label Text="{ Binding Name}" WidthRequest="300"/>
+                            <Label Text="{ Binding Country}" WidthRequest="200"/>
+                        </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

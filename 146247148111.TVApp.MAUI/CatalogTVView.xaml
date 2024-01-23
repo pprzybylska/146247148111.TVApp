@@ -6,16 +6,56 @@
              Title="CatalogTVView"
              >
     <VerticalStackLayout>
+        <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
+            <Label Text="ID" WidthRequest="50"/>
+            <Label Text="Name" WidthRequest="300"/>
+            <Label Text="Producer Id" WidthRequest="100"/>
+            <Label Text="Producer's Name" WidthRequest="200"/>
+            <Label Text="Screen" WidthRequest="100"/>
+            <Label Text="ScreenSize" WidthRequest="50"/>
+        </HorizontalStackLayout>
+        
         <ListView ItemsSource="{Binding Tvs}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <VerticalStackLayout x:DataType="viewModel:TVViewModelV2">
-                            <Label Text="{ Binding Name}"/>
-                        </VerticalStackLayout>
+                        <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
+                            <Label Text="{ Binding ID}" WidthRequest="50"/>
+                            <Label Text="{ Binding Name}" WidthRequest="300"/>
+                            <Label Text="{ Binding ProducerId}" WidthRequest="100"/>
+                            <Label Text="{ Binding Producer.Name}" WidthRequest="200"/>
+                            <Label Text="{ Binding Screen}" WidthRequest="100"/>
+                            <Label Text="{ Binding ScreenSize}" WidthRequest="50"/>
+                        </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto" BindingContext="{Binding TvEdit}">
+            <Label Grid.Row="0" Grid.Column="0" Text="ID"/>
+            <Entry Grid.Row="0" Grid.Column="1" Text="{Binding ID}"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="Name"/>
+            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+
+            <Label Grid.Row="2" Grid.Column="0" Text="ProducerId"/>
+            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding ProducerId}"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Text="Producer's Name"/>
+            <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Producer.Name}"/>
+
+            <Label Grid.Row="4" Grid.Column="0" Text="Screen"/>
+            <Entry Grid.Row="4" Grid.Column="1" Text="{Binding Screen}"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Text="ScreenSize"/>
+            <Entry Grid.Row="5" Grid.Column="1" Text="{Binding ScreenSize}"/>
+        </Grid>
+
+        <HorizontalStackLayout>
+            <Button Text="New TV" Command="{ Binding CreateNewTVCommand}" />
+            <Button Text="Save" Command="{ Binding SaveTvCommand}"/>
+            <Button Text="Delete"  Command="{ Binding CancelCommand}"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

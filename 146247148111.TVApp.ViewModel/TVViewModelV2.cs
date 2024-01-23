@@ -38,5 +38,10 @@ namespace _146247148111.TVApp.ViewModel
             ScreenSize = tv.ScreenSize;
             Screen = tv.Screen;
         }
+
+        public TVViewModelV2()
+        {
+
+        }
     }
 }

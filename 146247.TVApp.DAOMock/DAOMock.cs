@@ -14,9 +14,9 @@ namespace _146247148111.TVApp.DAOMock
             producers = new List<IProducer>();
             TVs = new List<ITV>();
 
-            producers.Add(new Producer() { ID = 1, Name = "Samsung" });
-            producers.Add(new Producer() { ID = 2, Name = "Sony" });
-            producers.Add(new Producer() { ID = 3, Name = "Panasonic" });
+            producers.Add(new Producer() { ID = 1, Name = "Samsung", Country = "SK" });
+            producers.Add(new Producer() { ID = 2, Name = "Sony", Country = "JP" });
+            producers.Add(new Producer() { ID = 3, Name = "Panasonic"});
 
             TVs.Add(new TV() { ID = 1, Name = "QE65Q77C", ProducerId = 1, Producer = producers[0], Screen = Core.ScreenType.QLED, ScreenSize = 65 });
             TVs.Add(new TV() { ID = 2, Name = "QE65S90C", ProducerId = 1, Producer = producers[0], Screen = Core.ScreenType.OLED, ScreenSize = 65 });

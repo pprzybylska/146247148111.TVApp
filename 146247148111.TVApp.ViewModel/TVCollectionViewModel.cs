@@ -1,12 +1,15 @@
 ﻿using _146247148111.TVApp.BLC;
 using _146247148111.TVApp.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace _146247148111.TVApp.ViewModel
 {
@@ -26,6 +29,74 @@ namespace _146247148111.TVApp.ViewModel
             {
                 tvs.Add(new TVViewModelV2(tv));
             }
+
+            IsEditing = false;
+            TvEdit = null;
+
+            CancelCommand = new Command(
+                execute: () =>
+                {
+                    TvEdit.PropertyChanged -= OnTvPropertyChanged;
+                    TvEdit = null;
+                    IsEditing = false;
+                    RefreshCanExecute();
+                },
+                canExecute: () => IsEditing
+                );
+
+
+            RefreshCanExecute();
         }
+
+        [ObservableProperty]
+        private TVViewModelV2 tvEdit;
+
+        [ObservableProperty]
+        private bool isEditing;
+
+        [RelayCommand(CanExecute = nameof(CanCreateNewTV))]
+        private void CreateNewTV()
+        {
+            TvEdit = new TVViewModelV2();
+            TvEdit.PropertyChanged += OnTvPropertyChanged;
+            IsEditing = true;
+        }
+
+        private bool CanCreateNewTV()
+        {
+            return !IsEditing;
+        }
+
+        [RelayCommand(CanExecute =nameof(CanEditTvBeSaved))]
+        private void SaveTv()
+        {
+            Tvs.Add(TvEdit);
+            TvEdit.PropertyChanged -= OnTvPropertyChanged;
+            TvEdit = null;
+            IsEditing = false;
+            RefreshCanExecute();
+        }
+
+        private bool CanEditTvBeSaved()
+        {
+            return TvEdit != null &&
+                TvEdit.Name != null &&
+                TvEdit.Name.Length > 2;
+        }
+
+        void OnTvPropertyChanged(object sender,PropertyChangedEventArgs args)
+        {
+            SaveTvCommand.NotifyCanExecuteChanged();
+        }
+
+        private void RefreshCanExecute()
+        {
+            CreateNewTVCommand.NotifyCanExecuteChanged();
+            SaveTvCommand.NotifyCanExecuteChanged();
+
+            (CancelCommand as Command).ChangeCanExecute();
+        }
+
+        public ICommand CancelCommand { get; set; }
     }
 }
