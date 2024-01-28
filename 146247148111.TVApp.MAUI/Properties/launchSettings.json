@@ -4,5 +4,6 @@
       "commandName": "MsixPackage",
       "nativeDebugging": false
     }
-  }
+  },
+  "DAOLibraryName": "bin\\Debug\\net6.0\\146247148111.TVApp.DAOSQL.dll"
 }

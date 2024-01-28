@@ -3,27 +3,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:viewModel="clr-namespace:_146247148111.TVApp.ViewModel;assembly=146247148111.TVApp.ViewModel"
+                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2021/maui/toolkit"
                  x:Class="_146247148111.TVApp.MAUI.ProducersCatalogView"
                  Title="ProducersCatalogView">
-    <VerticalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="ID" WidthRequest="50"/>
-            <Label Text="Name" WidthRequest="300"/>
-            <Label Text="Country" WidthRequest="200"/>
-        </HorizontalStackLayout>
-        
-        <ListView ItemsSource="{ Binding Producers }">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <HorizontalStackLayout x:DataType="viewModel:ProducerViewModel">
-                            <Label Text="{ Binding ID}" WidthRequest="50"/>
-                            <Label Text="{ Binding Name}" WidthRequest="300"/>
-                            <Label Text="{ Binding Country}" WidthRequest="200"/>
-                        </HorizontalStackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+    <ScrollView Margin="20">
+        <VerticalStackLayout>
+            <Label Text="View List" Style="{StaticResource SubHeadline}" />
+            <HorizontalStackLayout>
+                <Label Text="ID" WidthRequest="50"/>
+                <Label Text="Name" WidthRequest="300"/>
+                <Label Text="Country" WidthRequest="200"/>
+            </HorizontalStackLayout>
+
+            <ListView ItemsSource="{ Binding Producers }" SelectedItem="{ Binding ProducerEdit}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <HorizontalStackLayout x:DataType="viewModel:ProducerViewModel" >
+                                <Label Text="{ Binding ID}" WidthRequest="50" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Name}" WidthRequest="300" FontSize="Medium" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Country}" WidthRequest="200" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="Edit Producers" FontSize="Large" FontAttributes="Bold" TextColor="#5B0A98" />
+            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="100, 200" BindingContext="{Binding ProducerEdit}" StyleClass="properties-grid">
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Name" VerticalTextAlignment="Center"/>
+                <Entry Text="{Binding Name}" Grid.Row="0" Grid.Column="1" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Country" VerticalTextAlignment="Center"/>
+                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Country}"/>
+            </Grid>
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="NewProducerTV" Command="{ Binding CreateNewProducerCommand}" />
+                <Button Text="Save" Command="{ Binding SaveProducerCommand}"/>
+                <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
+                <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

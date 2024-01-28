@@ -1,4 +1,5 @@
 ﻿using _146247148111.TVApp.ViewModel;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace _146247148111.TVApp.MAUI
@@ -10,6 +11,7 @@ namespace _146247148111.TVApp.MAUI
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

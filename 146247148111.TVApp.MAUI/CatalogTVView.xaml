@@ -1,61 +1,100 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:interfaces="clr-namespace:_146247148111.TVApp.Core;assembly=146247148111.TVApp.Core"
              xmlns:viewModel="clr-namespace:_146247148111.TVApp.ViewModel;assembly=146247148111.TVApp.ViewModel"
              x:Class="_146247148111.TVApp.MAUI.CatalogTVView"
-             Title="CatalogTVView"
-             >
-    <VerticalStackLayout>
-        <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
-            <Label Text="ID" WidthRequest="50"/>
-            <Label Text="Name" WidthRequest="300"/>
-            <Label Text="Producer Id" WidthRequest="100"/>
-            <Label Text="Producer's Name" WidthRequest="200"/>
-            <Label Text="Screen" WidthRequest="100"/>
-            <Label Text="ScreenSize" WidthRequest="50"/>
-        </HorizontalStackLayout>
-        
-        <ListView ItemsSource="{Binding Tvs}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
-                            <Label Text="{ Binding ID}" WidthRequest="50"/>
-                            <Label Text="{ Binding Name}" WidthRequest="300"/>
-                            <Label Text="{ Binding ProducerId}" WidthRequest="100"/>
-                            <Label Text="{ Binding Producer.Name}" WidthRequest="200"/>
-                            <Label Text="{ Binding Screen}" WidthRequest="100"/>
-                            <Label Text="{ Binding ScreenSize}" WidthRequest="50"/>
-                        </HorizontalStackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+             Title="CatalogTVView">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto" BindingContext="{Binding TvEdit}">
-            <Label Grid.Row="0" Grid.Column="0" Text="ID"/>
-            <Entry Grid.Row="0" Grid.Column="1" Text="{Binding ID}"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:EnumToIntConverter x:Key="EnumToIntConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-            <Label Grid.Row="1" Grid.Column="0" Text="Name"/>
-            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
 
-            <Label Grid.Row="2" Grid.Column="0" Text="ProducerId"/>
-            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding ProducerId}"/>
+    <ScrollView Margin="20">
 
-            <Label Grid.Row="3" Grid.Column="0" Text="Producer's Name"/>
-            <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Producer.Name}"/>
+        <VerticalStackLayout Spacing="10" StyleClass="main-container">
+            <HorizontalStackLayout Spacing="10">
+                <Entry WidthRequest="300" Text="{Binding SearchString}" />
+                <Button Text="Search" Command="{Binding SearchCommand}" />
+                <Button Text="Reset filters" Command="{Binding ResetFiltersCommand}" />
+            </HorizontalStackLayout>
 
-            <Label Grid.Row="4" Grid.Column="0" Text="Screen"/>
-            <Entry Grid.Row="4" Grid.Column="1" Text="{Binding Screen}"/>
+            <Label Text="Filter" FontSize="Medium" FontAttributes="Bold" TextColor="#5B0A98" />
+            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="120, 120, 100, 100" StyleClass="properties-grid">
 
-            <Label Grid.Row="5" Grid.Column="0" Text="ScreenSize"/>
-            <Entry Grid.Row="5" Grid.Column="1" Text="{Binding ScreenSize}"/>
-        </Grid>
+                <Label Grid.Column="0" Grid.Row="0" Text="Producer" StyleClass="property-name"/>
+                <Picker Grid.Column="0" Grid.Row="1" SelectedItem="{Binding FilterProducer}" ItemsSource="{Binding Producers}" ItemDisplayBinding="{Binding Name}"/>
+                <Button Grid.Column="0" Grid.Row="2" Text="Filter Producer" Command="{Binding FilterProducerFunctionCommand}" />
 
-        <HorizontalStackLayout>
-            <Button Text="New TV" Command="{ Binding CreateNewTVCommand}" />
-            <Button Text="Save" Command="{ Binding SaveTvCommand}"/>
-            <Button Text="Delete"  Command="{ Binding CancelCommand}"/>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+                <Label Grid.Column="1" Grid.Row="0" Text="Screen Type" StyleClass="property-name"/>
+                <Picker Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding FilterScreenType, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type interfaces:ScreenType}}" ItemsSource="{Binding Types}"/>
+                <Button Grid.Column="1" Grid.Row="2" Text="Filter Type" Command="{Binding FilterScreenTypeFunctionCommand}" />
+
+                <Label Grid.Row="0" Grid.Column="2" Text="Min Screen" StyleClass="property-name"/>
+                <Entry Grid.Row="1" Grid.Column="2" Text="{Binding FilterScreenSizeMin}" StyleClass="property-name"/>
+                <Button Grid.Row="2" Grid.Column="2" Text="Filter Size" Command="{Binding FilterScreenSizeFunctionCommand}" />
+
+                <Label Grid.Row="0" Grid.Column="3" Text="Max Screen" StyleClass="property-name"/>
+                <Entry Grid.Row="1" Grid.Column="3" Text="{Binding FilterScreenSizeMax}" StyleClass="property-name"/>
+
+            </Grid>
+
+
+            <HorizontalStackLayout>
+                <Label Text="ID" WidthRequest="50"/>
+                <Label Text="Name" WidthRequest="300"/>
+                <Label Text="Producer's Name" WidthRequest="200"/>
+                <Label Text="Screen" WidthRequest="100"/>
+                <Label Text="ScreenSize" WidthRequest="100"/>
+            </HorizontalStackLayout>
+
+            <ListView ItemsSource="{Binding Tvs}" SelectedItem="{ Binding TvEdit}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
+                                <Label Text="{ Binding ID}" WidthRequest="50" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Name}" WidthRequest="300" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Producer.Name}" WidthRequest="200" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Screen}" WidthRequest="100" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding ScreenSize}" WidthRequest="100" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="Edit TVs" FontSize="Large" FontAttributes="Bold" TextColor="#5B0A98" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="100, 200" StyleClass="properties-grid">
+                <Label Grid.Row="0" Grid.Column="0" Text="Name" StyleClass="property-name"/>
+                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding TvEdit.Name}" StyleClass="property-name"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Producer's Name" StyleClass="property-name"/>
+                <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding TvEdit.Producer}" ItemsSource="{Binding Producers}" ItemDisplayBinding="{Binding Name}"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Producer's Id" StyleClass="property-name"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding TvEdit.Producer.ID}" StyleClass="property-name"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Screen" StyleClass="property-name"/>
+                <Picker WidthRequest="200" Grid.Column="1" Grid.Row="3" SelectedIndex="{Binding TvEdit.Screen, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type interfaces:ScreenType}}" ItemsSource="{Binding Types}"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Text="ScreenSize" StyleClass="property-name"/>
+                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding TvEdit.ScreenSize}" StyleClass="property-name"/>
+            </Grid>
+
+            <HorizontalStackLayout Spacing="10" >
+                <Button Text="New TV" Command="{ Binding CreateNewTVCommand}" />
+                <Button Text="Save" Command="{ Binding SaveTvCommand}"/>
+                <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
+                <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
