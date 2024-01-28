@@ -109,6 +109,7 @@ namespace _146247148111.TVApp.DAOSQL
             {
                 producerToUpdate.Name = Name;
                 producerToUpdate.Country = Country;
+                context.Update(producerToUpdate);
                 context.SaveChanges();
                 return producerToUpdate;
             }
