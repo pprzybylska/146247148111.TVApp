@@ -61,9 +61,9 @@ namespace _146247148111.TVApp.BLC
             return dao.CreateNewProducer(Name, Country);   
         }
 
-        public ITV CreateNewTV(string Name, string ProducerId, ScreenType Screen, int ScreenSize)
+        public ITV CreateNewTV(string Name, string ProducerName, ScreenType Screen, int ScreenSize)
         {
-            return dao.CreateNewTV(Name, ProducerId, Screen, ScreenSize);
+            return dao.CreateNewTV(Name, ProducerName, Screen, ScreenSize);
         }
 
         public bool DeleteProducerById(int producerId)
