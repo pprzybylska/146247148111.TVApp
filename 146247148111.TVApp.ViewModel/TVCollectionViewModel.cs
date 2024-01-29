@@ -161,7 +161,10 @@ namespace _146247148111.TVApp.ViewModel
                 execute: () =>
                 {
                     TvEdit.PropertyChanged -= OnTvPropertyChanged;
-                    prod.PropertyChanged -= OnTvPropertyChanged;
+                    if (prod != null)
+                    {
+                        prod.PropertyChanged -= OnTvPropertyChanged;
+                    }
                     TvEdit = null;
                     prod = null;
                     IsEditing = false;
@@ -188,7 +191,6 @@ namespace _146247148111.TVApp.ViewModel
                     return CanDelete();
                 });
 
-            
         }
 
         [ObservableProperty]
@@ -197,6 +199,9 @@ namespace _146247148111.TVApp.ViewModel
 
         [ObservableProperty]
         private bool isEditing;
+
+        [ObservableProperty]
+        private bool isUpdateing;
 
         [RelayCommand(CanExecute = nameof(CanCreateNewTV))]
         private void CreateNewTV()
@@ -222,7 +227,31 @@ namespace _146247148111.TVApp.ViewModel
 
         private bool CanDelete()
         {
-            return TvEdit != null;
+            return TvEdit != null; ;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanCreateNewTV))]
+        private void UpdateTv()
+        {
+            if (TvEdit != null) 
+            { 
+                TvEdit.PropertyChanged += OnTvPropertyChanged;
+                IsUpdateing = true;
+                IsEditing = true;
+                RefreshCanExecute();
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanEditTvBeSaved2))]
+        private void SaveUpdate()
+        {
+            iColl.UpdateTV(TvEdit.ID, TvEdit.Name, TvEdit.Producer.Name, TvEdit.Screen, TvEdit.ScreenSize);
+            RefreshList();
+            TvEdit.PropertyChanged -= OnTvPropertyChanged;
+            TvEdit = null;
+            IsEditing = false;
+            IsUpdateing = false;
+            RefreshCanExecute();
         }
 
         private void RefreshList()
@@ -258,18 +287,34 @@ namespace _146247148111.TVApp.ViewModel
                 TvEdit.Name != null &&
                 TvEdit.Name.Length > 1 &&
                 TvEdit.ProducerId != null &&
-                TvEdit.ScreenSize > 20;
+                TvEdit.ScreenSize > 20 &&
+                !isUpdateing;
+        }
+
+        private bool CanEditTvBeSaved2()
+        {
+            return TvEdit != null &&
+                TvEdit.Name != null &&
+                TvEdit.Name.Length > 1 &&
+                TvEdit.ProducerId != null &&
+                TvEdit.ScreenSize > 20 &&
+                isUpdateing;
         }
 
         void OnTvPropertyChanged(object sender,PropertyChangedEventArgs args)
         {
             SaveTvCommand.NotifyCanExecuteChanged();
+            UpdateTvCommand.NotifyCanExecuteChanged();
+            SaveUpdateCommand.NotifyCanExecuteChanged();
         }
 
         private void RefreshCanExecute()
         {
             CreateNewTVCommand.NotifyCanExecuteChanged();
             SaveTvCommand.NotifyCanExecuteChanged();
+
+            UpdateTvCommand.NotifyCanExecuteChanged();
+            SaveUpdateCommand.NotifyCanExecuteChanged();
 
             (CancelCommand as Command).ChangeCanExecute();
             (DeleteCommand as Command).ChangeCanExecute();

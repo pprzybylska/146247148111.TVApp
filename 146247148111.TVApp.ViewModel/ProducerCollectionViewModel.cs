@@ -71,6 +71,9 @@ namespace _146247148111.TVApp.ViewModel
                 });
         }
 
+        [ObservableProperty]
+        private bool isUpdateing;
+
         private ProducerViewModel producerEdit;
         public ProducerViewModel ProducerEdit
         {
@@ -109,6 +112,30 @@ namespace _146247148111.TVApp.ViewModel
             RefreshCanExecute();
         }
 
+        [RelayCommand(CanExecute = nameof(CanCreateNewProducer))]
+        private void UpdateTv()
+        {
+            if (ProducerEdit != null)
+            {
+                ProducerEdit.PropertyChanged += OnProducersPropertyChanged;
+                IsUpdateing = true;
+                IsEditing = true;
+                RefreshCanExecute();
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanEditProducerBeSaved2))]
+        private void SaveUpdate()
+        {
+            iColl.UpdateProducer(ProducerEdit.ID, ProducerEdit.Name, ProducerEdit.Country);
+            RefreshList();
+            ProducerEdit.PropertyChanged -= OnProducersPropertyChanged;
+            ProducerEdit = null;
+            IsEditing = false;
+            IsUpdateing = false;
+            RefreshCanExecute();
+        }
+
         private void RefreshList() {
             producers.Clear();
 
@@ -122,20 +149,33 @@ namespace _146247148111.TVApp.ViewModel
         {
             return ProducerEdit != null &&
                 ProducerEdit.Name != null &&
-                ProducerEdit.Name.Length > 1;
+                ProducerEdit.Name.Length > 1 &&
+                !isUpdateing;
         }
+
+        private bool CanEditProducerBeSaved2()
+        {
+            return ProducerEdit != null &&
+                ProducerEdit.Name != null &&
+                ProducerEdit.Name.Length > 1 &&
+                isUpdateing;
+        }
+
 
         void OnProducersPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             SaveProducerCommand.NotifyCanExecuteChanged();
-            //DeleteProducerByIdCommand.NotifyCanExecuteChanged();
+            UpdateTvCommand.NotifyCanExecuteChanged();
+            SaveUpdateCommand.NotifyCanExecuteChanged();
         }
 
         private void RefreshCanExecute()
         {
             CreateNewProducerCommand.NotifyCanExecuteChanged();
             SaveProducerCommand.NotifyCanExecuteChanged();
-            //DeleteProducerByIdCommand.NotifyCanExecuteChanged();
+
+            UpdateTvCommand.NotifyCanExecuteChanged();
+            SaveUpdateCommand.NotifyCanExecuteChanged();
 
             (CancelCommand as Command).ChangeCanExecute();
             (DeleteCommand as Command).ChangeCanExecute();

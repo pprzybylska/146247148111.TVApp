@@ -24,6 +24,8 @@
                 <Button Text="Save" Command="{ Binding SaveProducerCommand}"/>
                 <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
                 <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
+                <Button Text="Start Update"  Command="{ Binding UpdateTvCommand}"/>
+                <Button Text="Save Update"  Command="{ Binding SaveUpdateCommand}"/>
             </HorizontalStackLayout>
             
             
