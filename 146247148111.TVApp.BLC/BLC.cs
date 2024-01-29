@@ -1,5 +1,6 @@
 ﻿using _146247148111.TVApp.Core;
 using _146247148111.TVApp.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace _146247148111.TVApp.BLC
@@ -45,6 +46,43 @@ namespace _146247148111.TVApp.BLC
             return instance;
         }
 
+        public static BLC GetInstance()
+        {
+            if (instance == null)
+            {
+                lock (lockObject)
+                {
+                    if (instance == null)
+                    {
+                        Type typeToCreate = null;
+
+                        string dirName = AppDomain.CurrentDomain.BaseDirectory;
+                        dirName = Path.GetFullPath(dirName).Remove(dirName.IndexOf("\\bin"));
+
+                        var configuration = new ConfigurationBuilder()
+                            .SetBasePath(dirName)
+                            .AddJsonFile("appsettings.json")
+                            .Build();
+
+                        Assembly assembly = Assembly.UnsafeLoadFrom(configuration["DAOLibraryName"]);
+
+                        foreach (Type type in assembly.GetTypes())
+                        {
+                            if (type.IsAssignableTo(typeof(IDAO)))
+                            {
+                                typeToCreate = type;
+                                break;
+                            }
+                        }
+
+                        IDAO daoInstance = (IDAO)Activator.CreateInstance(typeToCreate, null);
+                        instance = new BLC(daoInstance);
+                    }
+                }
+            }
+
+            return instance;
+        }
 
         public IEnumerable<IProducer> GetProducers()
         {

@@ -8,26 +8,6 @@
                  Title="ProducersCatalogView">
     <ScrollView Margin="20">
         <VerticalStackLayout>
-            <Label Text="View List" Style="{StaticResource SubHeadline}" />
-            <HorizontalStackLayout>
-                <Label Text="ID" WidthRequest="50"/>
-                <Label Text="Name" WidthRequest="300"/>
-                <Label Text="Country" WidthRequest="200"/>
-            </HorizontalStackLayout>
-
-            <ListView ItemsSource="{ Binding Producers }" SelectedItem="{ Binding ProducerEdit}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <HorizontalStackLayout x:DataType="viewModel:ProducerViewModel" >
-                                <Label Text="{ Binding ID}" WidthRequest="50" VerticalTextAlignment="Center"/>
-                                <Label Text="{ Binding Name}" WidthRequest="300" FontSize="Medium" VerticalTextAlignment="Center"/>
-                                <Label Text="{ Binding Country}" WidthRequest="200" VerticalTextAlignment="Center"/>
-                            </HorizontalStackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
 
             <Label Text="Edit Producers" FontSize="Large" FontAttributes="Bold" TextColor="#5B0A98" />
             <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="100, 200" BindingContext="{Binding ProducerEdit}" StyleClass="properties-grid">
@@ -45,6 +25,29 @@
                 <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
                 <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
             </HorizontalStackLayout>
+            
+            
+            <Label Text="View List" Style="{StaticResource SubHeadline}" />
+            <HorizontalStackLayout>
+                <Label Text="ID" WidthRequest="50"/>
+                <Label Text="Name" WidthRequest="300" TextColor="#ac99ea" FontAttributes="Bold" />
+                <Label Text="Country" WidthRequest="200"/>
+            </HorizontalStackLayout>
+
+            <ListView ItemsSource="{ Binding Producers }" SelectedItem="{ Binding ProducerEdit}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <HorizontalStackLayout x:DataType="viewModel:ProducerViewModel" >
+                                <Label Text="{ Binding ID}" WidthRequest="50" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Name}" WidthRequest="300" VerticalTextAlignment="Center"  TextColor="#ac99ea" FontAttributes="Bold"  />
+                                <Label Text="{ Binding Country}" WidthRequest="200" VerticalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

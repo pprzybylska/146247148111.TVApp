@@ -8,35 +8,15 @@
     Title="_146247148111.TVApp.MAUI">
 
     <FlyoutItem>
-        <Tab Title="Television">
-            <ShellContent
+        <ShellContent
             Title="TV Catalog"
             ContentTemplate="{DataTemplate local:CatalogTVView}"
             Route="TV Catalog View" />
 
-            <ShellContent
-            Title="Add New TV"
-            ContentTemplate="{DataTemplate local:AddNewTV}"
-            Route="New TV" />
-        </Tab>
-
-        <Tab Title="Producer">
-            <ShellContent
+        <ShellContent
             Title="Producers Catalog"
             ContentTemplate="{DataTemplate local:ProducersCatalogView}"
             Route="Producers" />
-
-            <ShellContent
-            Title="Add New Producer"
-            ContentTemplate="{DataTemplate local:AddNewProducer}"
-            Route="New Producer" />
-        </Tab>
-
-        <ShellContent
-            Title="Home"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage" />
-
     </FlyoutItem>
     
 </Shell>

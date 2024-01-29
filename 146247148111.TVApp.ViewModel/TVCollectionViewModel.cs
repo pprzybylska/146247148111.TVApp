@@ -14,13 +14,17 @@ using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Globalization;
 using _146247148111.TVApp.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Maui.Graphics;
+using System.Reflection;
 
 namespace _146247148111.TVApp.ViewModel
 {
     public partial class TVCollectionViewModel : ObservableObject
     {
         // DAOLibraryName
-        private BLC.BLC iColl = BLC.BLC.GetInstance("C:\\Users\\neuba\\Documents\\PW\\146247148111.TVApp\\146247148111.TVApp.ViewModel\\bin\\Debug\\net8.0-windows10.0.19041.0\\146247148111.TVApp.DAOMock.dll");
+        private BLC.BLC iColl;
+        //= BLC.BLC.GetInstance("C:\\Users\\neuba\\Documents\\PW\\146247148111.TVApp\\146247148111.TVApp.ViewModel\\bin\\Debug\\net8.0-windows10.0.19041.0\\146247148111.TVApp.DAOMock.dll");
 
 
         [ObservableProperty]
@@ -36,7 +40,7 @@ namespace _146247148111.TVApp.ViewModel
         private string searchString = "";
 
         [ObservableProperty]
-        private TVViewModelV2 filterProducer;
+        private ProducerViewModel filterProducer;
 
         [ObservableProperty]
         Double filterScreenSizeMax = 100;
@@ -72,7 +76,7 @@ namespace _146247148111.TVApp.ViewModel
             tvs.Clear();
 
             IEnumerable<ITV> newTV = iColl.GetTVs();
-            if (SearchString != "")
+            if (FilterProducer != null && FilterProducer.Name != "")
             {
                 newTV = iColl.FilterByProducer(FilterProducer.Name);
             }
@@ -91,10 +95,11 @@ namespace _146247148111.TVApp.ViewModel
             tvs.Clear();
 
             IEnumerable<ITV> newTV = iColl.GetTVs();
-            if (SearchString != "")
+            if (FilterScreenType != null)
             {
                 newTV = iColl.FilterByScreenType(FilterScreenType);
             }
+
             if (newTV.Count() > 0)
             {
                 foreach (var newTv in newTV)
@@ -110,10 +115,8 @@ namespace _146247148111.TVApp.ViewModel
             tvs.Clear();
 
             IEnumerable<ITV> newTV = iColl.GetTVs();
-            if (SearchString != "")
-            {
-                newTV = iColl.FilterByScreenSize(FilterScreenSizeMin, FilterScreenSizeMax);
-            }
+            
+            newTV = iColl.FilterByScreenSize(FilterScreenSizeMin, FilterScreenSizeMax);
             if (newTV.Count() > 0)
             {
                 foreach (var newTv in newTV)
@@ -134,6 +137,9 @@ namespace _146247148111.TVApp.ViewModel
 
         public TVCollectionViewModel()
         {
+
+            iColl = BLC.BLC.GetInstance();
+
             tvs = new ObservableCollection<TVViewModelV2>();
 
             foreach (var tv in iColl.GetTVs())
@@ -182,6 +188,7 @@ namespace _146247148111.TVApp.ViewModel
                     return CanDelete();
                 });
 
+            
         }
 
         [ObservableProperty]
@@ -250,7 +257,8 @@ namespace _146247148111.TVApp.ViewModel
             return TvEdit != null &&
                 TvEdit.Name != null &&
                 TvEdit.Name.Length > 1 &&
-                TvEdit.ProducerId != null;
+                TvEdit.ProducerId != null &&
+                TvEdit.ScreenSize > 20;
         }
 
         void OnTvPropertyChanged(object sender,PropertyChangedEventArgs args)
@@ -269,6 +277,7 @@ namespace _146247148111.TVApp.ViewModel
 
         public ICommand CancelCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public IConfiguration Configuration { get; }
     }
 
 }

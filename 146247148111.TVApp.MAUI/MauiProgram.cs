@@ -1,6 +1,9 @@
 ﻿using _146247148111.TVApp.ViewModel;
 using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
+using System.Reflection;
 
 namespace _146247148111.TVApp.MAUI
 {
@@ -9,6 +12,7 @@ namespace _146247148111.TVApp.MAUI
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()

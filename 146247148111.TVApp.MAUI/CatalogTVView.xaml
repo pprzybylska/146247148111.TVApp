@@ -20,6 +20,33 @@
     <ScrollView Margin="20">
 
         <VerticalStackLayout Spacing="10" StyleClass="main-container">
+
+            <Label Text="Edit TVs" FontSize="Large" FontAttributes="Bold" TextColor="#5B0A98" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="100, 200" StyleClass="properties-grid">
+                <Label Grid.Row="0" Grid.Column="0" Text="Name" StyleClass="property-name"/>
+                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding TvEdit.Name}" StyleClass="property-name"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Producer's Name" StyleClass="property-name"/>
+                <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding TvEdit.Producer}" ItemsSource="{Binding Producers}" ItemDisplayBinding="{Binding Name}"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Producer's Id" StyleClass="property-name"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding TvEdit.Producer.ID}" StyleClass="property-name"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Screen" StyleClass="property-name"/>
+                <Picker WidthRequest="200" Grid.Column="1" Grid.Row="3" SelectedIndex="{Binding TvEdit.Screen, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type interfaces:ScreenType}}" ItemsSource="{Binding Types}"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Text="ScreenSize" StyleClass="property-name"/>
+                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding TvEdit.ScreenSize}" StyleClass="property-name"/>
+            </Grid>
+
+            <HorizontalStackLayout Spacing="10" >
+                <Button Text="New TV" Command="{ Binding CreateNewTVCommand}" />
+                <Button Text="Save" Command="{ Binding SaveTvCommand}"/>
+                <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
+                <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
+            </HorizontalStackLayout>
+            
+            
             <HorizontalStackLayout Spacing="10">
                 <Entry WidthRequest="300" Text="{Binding SearchString}" />
                 <Button Text="Search" Command="{Binding SearchCommand}" />
@@ -49,7 +76,7 @@
 
             <HorizontalStackLayout>
                 <Label Text="ID" WidthRequest="50"/>
-                <Label Text="Name" WidthRequest="300"/>
+                <Label Text="Name" WidthRequest="300"  TextColor="#ac99ea" FontAttributes="Bold"/>
                 <Label Text="Producer's Name" WidthRequest="200"/>
                 <Label Text="Screen" WidthRequest="100"/>
                 <Label Text="ScreenSize" WidthRequest="100"/>
@@ -61,7 +88,7 @@
                         <ViewCell>
                             <HorizontalStackLayout x:DataType="viewModel:TVViewModelV2">
                                 <Label Text="{ Binding ID}" WidthRequest="50" VerticalTextAlignment="Center"/>
-                                <Label Text="{ Binding Name}" WidthRequest="300" VerticalTextAlignment="Center"/>
+                                <Label Text="{ Binding Name}" WidthRequest="300" VerticalTextAlignment="Center" TextColor="#ac99ea" FontAttributes="Bold" />
                                 <Label Text="{ Binding Producer.Name}" WidthRequest="200" VerticalTextAlignment="Center"/>
                                 <Label Text="{ Binding Screen}" WidthRequest="100" VerticalTextAlignment="Center"/>
                                 <Label Text="{ Binding ScreenSize}" WidthRequest="100" VerticalTextAlignment="Center"/>
@@ -71,30 +98,6 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Label Text="Edit TVs" FontSize="Large" FontAttributes="Bold" TextColor="#5B0A98" />
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="100, 200" StyleClass="properties-grid">
-                <Label Grid.Row="0" Grid.Column="0" Text="Name" StyleClass="property-name"/>
-                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding TvEdit.Name}" StyleClass="property-name"/>
-
-                <Label Grid.Row="1" Grid.Column="0" Text="Producer's Name" StyleClass="property-name"/>
-                <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding TvEdit.Producer}" ItemsSource="{Binding Producers}" ItemDisplayBinding="{Binding Name}"/>
-
-                <Label Grid.Row="2" Grid.Column="0" Text="Producer's Id" StyleClass="property-name"/>
-                <Label Grid.Row="2" Grid.Column="1" Text="{Binding TvEdit.Producer.ID}" StyleClass="property-name"/>
-
-                <Label Grid.Row="3" Grid.Column="0" Text="Screen" StyleClass="property-name"/>
-                <Picker WidthRequest="200" Grid.Column="1" Grid.Row="3" SelectedIndex="{Binding TvEdit.Screen, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type interfaces:ScreenType}}" ItemsSource="{Binding Types}"/>
-
-                <Label Grid.Row="4" Grid.Column="0" Text="ScreenSize" StyleClass="property-name"/>
-                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding TvEdit.ScreenSize}" StyleClass="property-name"/>
-            </Grid>
-
-            <HorizontalStackLayout Spacing="10" >
-                <Button Text="New TV" Command="{ Binding CreateNewTVCommand}" />
-                <Button Text="Save" Command="{ Binding SaveTvCommand}"/>
-                <Button Text="Cancel"  Command="{ Binding CancelCommand}"/>
-                <Button Text="Delete"  Command="{ Binding DeleteCommand}"/>
-            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
